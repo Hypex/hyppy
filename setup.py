@@ -1,13 +1,16 @@
 import os
-from distutils.core import setup
+from setuptools import setup
 import hyppy
 
 dir = os.path.dirname(os.path.abspath(__file__))
 readme = open(os.path.join(dir, 'README.rst')).read()
+required = open(os.path.join(dir, 'requirements.txt')).read().splitlines()
 
 setup(name='hyppy',
     version=hyppy.__version__,
     packages=['hyppy'],
+    install_requires=required,
+
     description='HAPI wrapper and tools for the online game Hyperiums',
     long_description=readme,
     author='Ross Masters',
