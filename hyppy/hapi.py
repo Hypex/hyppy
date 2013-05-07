@@ -32,6 +32,9 @@ class HAPI(object):
     endpoints that allow multiple authentication methods. Something to look at if such an endpoint is created.
     """
     default_url = 'http://www.hyperiums.com/servlet/HAPI'
+    base_urls = {
+        'Galaxy_H2_2': 'http://hyp2.hyperiums.com/servlet/HAPI'
+    }
 
     auth_context_hapi = 'hapi'
     auth_context_password = 'password'
@@ -43,7 +46,15 @@ class HAPI(object):
     cachebreak - If a response does not indicate that it is uncached a warning log will be emitted.
     """
     def __init__(self, game=None, base_url=None, cachebreak=True):
-        self.base_url = base_url if base_url is not None else HAPI.default_url
+        # If base_url is not specified (and game is), search HAPI.base_urls for game, otherwise use HAPI.default_url
+        if base_url is None:
+            # Use the set url for the game
+            if game is not None and game in HAPI.base_urls:
+                base_url = HAPI.base_urls[game]
+            else:
+                base_url = HAPI.default_url
+
+        self.base_url = base_url
         self.game = game
         self.cachebreak = cachebreak
 
